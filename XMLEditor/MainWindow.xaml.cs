@@ -17,6 +17,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Reflection;
+using System.IO;
 
 namespace XMLEditor
 {
@@ -89,6 +90,8 @@ namespace XMLEditor
                         Counter++;
                     }
                 }
+                FileInfo currentFile = new FileInfo(mw.openFilePathBox.Text);
+                currentFile.CopyTo(currentFile.Directory.FullName + "\\"+"result" + currentFile.Extension);
                 doc.Save(mw.openFilePathBox.Text);
 
                 mw.informationfield.TextAlignment = TextAlignment.Center;
