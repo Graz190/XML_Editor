@@ -27,7 +27,7 @@ namespace XMLEditor
     public partial class MainWindow : Window
     {
         public int counter=0;
-        XmlEditor editor;
+        private XmlEditor editor;
         public MainWindow()
         {
             InitializeComponent();
@@ -45,12 +45,12 @@ namespace XMLEditor
         private void openFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             openFileDialog.Filter = "XML Dateien (*.xml)|*.xml";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                openFilePathBox.Text = openFileDialog.FileName;
-            }
+
+            if (openFileDialog.ShowDialog() == true)openFilePathBox.Text = openFileDialog.FileName;
+            
         }
         private void shutdownApp(object sender, RoutedEventArgs e)
         {
@@ -60,11 +60,7 @@ namespace XMLEditor
 
     internal class XmlEditor
     {
-
-        public XmlEditor()
-        {
-        }
-
+        readonly string TARGETNODE = "GUID";
         public XmlEditor(MainWindow mainWindow)
         {
             mw = mainWindow;
@@ -81,9 +77,10 @@ namespace XMLEditor
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(mw.openFilePathBox.Text);
-                string targetNode = "GUID";
-                XmlNodeList list = doc.GetElementsByTagName(targetNode);
+
+                XmlNodeList list = doc.GetElementsByTagName(TARGETNODE);
                 Counter = 0;
+
                 foreach (XmlNode node in list)
                 {
                     if(node.InnerText !=String.Empty)
@@ -93,9 +90,11 @@ namespace XMLEditor
                     }
                 }
                 doc.Save(mw.openFilePathBox.Text);
+
                 mw.informationfield.TextAlignment = TextAlignment.Center;
                 mw.informationfield.Foreground = Brushes.Green;
                 mw.informationfield.Text = "Der Inhalt von GUID wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von GUID entfernt.";
+
                 return true;
             }
             return false;

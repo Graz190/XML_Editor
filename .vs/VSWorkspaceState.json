@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\XMLEditor",
+    "\\XMLEditor\\bin\\Debug",
+    "\\XMLEditor\\Properties"
   ],
+  "SelectedNode": "\\bin",
   "PreviewInSolutionExplorer": false
 }
