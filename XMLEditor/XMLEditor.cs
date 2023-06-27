@@ -2,7 +2,7 @@ using Internal;
 using System.Reflection.Metadata;
 using System.Xml.XPath;
 using System.Xml;
-class XMLEditor
+class XmlEditor
 {
     public boolean runReplacer()
     {
@@ -10,7 +10,7 @@ class XMLEditor
         doc.LoadXML("C:\\Users\\NCTR Admin\\Desktop\\zieldatei.xml");
         XmlNode root = doc.DocumentElement;
         XPathNavigator navigator = doc.CreateNavigator();
-        foreach (var nav in navigator.Select("GUID"))
+        for(var nav in navigator.Select("GUID"))
         {
             nav.SetValue("");
             Console.WriteLine("test")
@@ -19,8 +19,7 @@ class XMLEditor
     }
     static void Main(string[] args)
     {
-        XMLEditor editor = new XMLEditor();
-        editor.runReplacer();
+        runReplacer();
         
     }
 }
