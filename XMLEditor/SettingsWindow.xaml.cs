@@ -28,6 +28,9 @@ namespace XMLEditor
         private void saveAllSetting(object sender, RoutedEventArgs e)
         {
             save_Setting("ResultFileName",this.resultName.Text);
+            this.saveInformation.TextAlignment = TextAlignment.Center;
+            this.saveInformation.Foreground = Brushes.Green;
+            this.saveInformation.Text = "Einstellung wurden erfolgreich gespeichert";
         }
 
         private void cancel(object sender, RoutedEventArgs e)

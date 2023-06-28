@@ -9,17 +9,18 @@
     <Window.Resources>
     </Window.Resources>
     <StackPanel HorizontalAlignment="Center">
+        <TextBlock Name="saveInformation"/>
         <StackPanel Orientation="Horizontal">
             <StackPanel Margin="10">
                 <TextBlock Height="20" Width="80">Zieldateiname</TextBlock>
-                <TextBlock>(Default:Result)</TextBlock>
+                <TextBlock >(Default:Result)</TextBlock>
             </StackPanel>
-            <TextBox x:Name="resultName" Height="30" Width="300" Margin="10"/>
+            <TextBox x:Name="resultName" Height="30" Width="300" Margin="10" MaxLength="50"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <Button Click="saveAllSetting" Height="30" Width="100" Margin="0,0,150,0">Speichern</Button>
-            <Button Click="cancel" Height="30" Width="100">Abbrechen</Button>
+            <Button Click="cancel" Height="30" Width="100">Zurück</Button>
         </StackPanel>
 
     </StackPanel>
