@@ -1,0 +1,26 @@
+﻿<Window x:Class="XMLEditor.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XMLEditor"
+        mc:Ignorable="d"
+        Title="Einstellungen" Height="150" Width="500">
+    <Window.Resources>
+    </Window.Resources>
+    <StackPanel HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="10">
+                <TextBlock Height="20" Width="80">Zieldateiname</TextBlock>
+                <TextBlock>(Default:Result)</TextBlock>
+            </StackPanel>
+            <TextBox x:Name="resultName" Height="30" Width="300" Margin="10"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Click="saveAllSetting" Height="30" Width="100" Margin="0,0,150,0">Speichern</Button>
+            <Button Click="cancel" Height="30" Width="100">Abbrechen</Button>
+        </StackPanel>
+
+    </StackPanel>
+</Window>

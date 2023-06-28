@@ -18,6 +18,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Reflection;
 using System.IO;
+using System.Configuration;
 
 namespace XMLEditor
 {
@@ -36,11 +37,23 @@ namespace XMLEditor
         }
         private void runEditor(object sender, RoutedEventArgs e)
         {
-            if (!editor.runReplacer())
+            if (editor.read_Setting("ResultFileName")!=""){
+                if (!editor.runReplacer())
+                {
+                    this.informationfield.TextAlignment = TextAlignment.Center;
+                    this.informationfield.Foreground = Brushes.Red;
+                    this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
+                }
+            }
+            else
             {
-                this.informationfield.TextAlignment = TextAlignment.Center;
-                this.informationfield.Foreground = Brushes.Red;
-                this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
+                save_Setting("ResultFileName", "Result");
+                if (!editor.runReplacer())
+                {
+                    this.informationfield.TextAlignment = TextAlignment.Center;
+                    this.informationfield.Foreground = Brushes.Red;
+                    this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
+                }
             }
         }
         private void openFile(object sender, RoutedEventArgs e)
@@ -50,12 +63,38 @@ namespace XMLEditor
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             openFileDialog.Filter = "XML Dateien (*.xml)|*.xml";
 
-            if (openFileDialog.ShowDialog() == true)openFilePathBox.Text = openFileDialog.FileName;
+            if (openFileDialog.ShowDialog() == true)openFilePathBox.Text =  openFileDialog.FileName;
             
         }
         private void shutdownApp(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow win1 = new SettingsWindow();
+            win1.ShowDialog();
+        }
+        private void save_Setting(string setting_Name, string setting_Value)
+        {
+            string property_name = setting_Name;
+
+            SettingsProperty prop = null;
+            if (Properties.Settings.Default.Properties[property_name] != null)
+            {
+                prop = Properties.Settings.Default.Properties[property_name];
+            }
+            else
+            {
+                prop = new System.Configuration.SettingsProperty(property_name);
+                prop.PropertyType = typeof(string);
+                Properties.Settings.Default.Properties.Add(prop);
+                Properties.Settings.Default.Save();
+            }
+            Properties.Settings.Default.Properties[property_name].DefaultValue = setting_Value;
+
+            Properties.Settings.Default.Save();
         }
     }
 
@@ -70,7 +109,6 @@ namespace XMLEditor
 
         public MainWindow mw { get; }
         public int Counter { get; set; }
-
         public Boolean runReplacer()
         {
             
@@ -91,8 +129,13 @@ namespace XMLEditor
                     }
                 }
                 FileInfo currentFile = new FileInfo(mw.openFilePathBox.Text);
-                currentFile.CopyTo(currentFile.Directory.FullName + "\\"+"result" + currentFile.Extension);
-                doc.Save(mw.openFilePathBox.Text);
+                doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
+                
+                //string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + "result" + currentFile.Extension);
+                //File.WriteAllLines(currentFile.Directory.FullName + "\\" + "result" + currentFile.Extension, lines);
+
+                string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
+                File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
 
                 mw.informationfield.TextAlignment = TextAlignment.Center;
                 mw.informationfield.Foreground = Brushes.Green;
@@ -101,6 +144,16 @@ namespace XMLEditor
                 return true;
             }
             return false;
+        }
+        public string read_Setting(string setting_Name) {
+            string sResult = "";
+            if (Properties.Settings.Default.Properties[setting_Name] != null)
+            {
+                sResult = Properties.Settings.Default.Properties[setting_Name].DefaultValue.ToString();
+            }
+            if (sResult == "NaN") sResult = "0";
+
+            return sResult;
         }
     }
 }

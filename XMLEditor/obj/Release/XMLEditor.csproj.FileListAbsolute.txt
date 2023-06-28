@@ -14,3 +14,5 @@ C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XML
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.csproj.CoreCompileInputs.cache
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.exe
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.pdb
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\SettingsWindow.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\SettingsWindow.baml
