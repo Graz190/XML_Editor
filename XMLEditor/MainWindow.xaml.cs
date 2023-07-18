@@ -34,9 +34,13 @@ namespace XMLEditor
         {
             InitializeComponent();
             editor = new XmlEditor(this);
+            save_Setting("ResultFileName", "Result");
+            save_Setting("TargetTagName", "GUID");
         }
         private void runEditor(object sender, RoutedEventArgs e)
         {
+            this.StartButton.IsEnabled = false;
+
             if (editor.read_Setting("ResultFileName")!=""){
                 if (!editor.runReplacer())
                 {
@@ -47,7 +51,7 @@ namespace XMLEditor
             }
             else
             {
-                save_Setting("ResultFileName", "Result");
+                
                 if (!editor.runReplacer())
                 {
                     this.informationfield.TextAlignment = TextAlignment.Center;
@@ -55,6 +59,7 @@ namespace XMLEditor
                     this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
                 }
             }
+            this.StartButton.IsEnabled = true;
         }
         private void openFile(object sender, RoutedEventArgs e)
         {
@@ -73,8 +78,21 @@ namespace XMLEditor
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow win1 = new SettingsWindow();
-            win1.ShowDialog();
+            Control ctrl = sender as Control;
+
+            if(ctrl!= null)
+            {
+                String name = ctrl.Name;
+                if(name == "Einstellung")
+                {
+                    SettingsWindow win1 = new SettingsWindow();
+                    win1.ShowDialog();
+                }
+                else if(name == "Credit")
+                {
+                    MessageBox.Show("Made with Love by Christian Fagherazzi", "Credits");
+                }
+            }
         }
         private void save_Setting(string setting_Name, string setting_Value)
         {
@@ -100,7 +118,6 @@ namespace XMLEditor
 
     internal class XmlEditor
     {
-        readonly string TARGETNODE = "GUID";
         public XmlEditor(MainWindow mainWindow)
         {
             mw = mainWindow;
@@ -117,7 +134,7 @@ namespace XMLEditor
                 XmlDocument doc = new XmlDocument();
                 doc.Load(mw.openFilePathBox.Text);
 
-                XmlNodeList list = doc.GetElementsByTagName(TARGETNODE);
+                XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
                 Counter = 0;
 
                 foreach (XmlNode node in list)

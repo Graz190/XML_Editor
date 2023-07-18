@@ -11,7 +11,8 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Menü">
-                    <MenuItem Header="_Einstellung" Click="MenuItem_Click"/>
+                    <MenuItem Header="_Einstellung" Name="Einstellung" Click="MenuItem_Click"/>
+                    <MenuItem Header="_Credit" Name="Credit" Click="MenuItem_Click"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
