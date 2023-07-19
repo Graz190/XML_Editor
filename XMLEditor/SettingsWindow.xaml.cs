@@ -16,9 +16,9 @@ namespace XMLEditor
 
         private void saveAllSetting(object sender, RoutedEventArgs e)
         {
-            save_Setting("ResultFileName",this.resultName.Text);
-            save_Setting("TargetTagName", this.tagName.Text);
-            save_Setting("ReplacedValue", this.replacedName.Text);
+            if (this.resultName.Text.Length >= 1) save_Setting("ResultFileName", this.resultName.Text);
+            if (this.tagName.Text.Length >= 1) save_Setting("TargetTagName", this.tagName.Text);
+            if (this.replacedName.Text.Length >= 1) save_Setting("ReplacedValue", this.replacedName.Text);
             this.saveInformation.TextAlignment = TextAlignment.Center;
             this.saveInformation.Foreground = Brushes.Green;
             this.saveInformation.Text = "Einstellung wurden erfolgreich gespeichert";
