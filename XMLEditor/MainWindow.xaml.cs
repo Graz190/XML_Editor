@@ -17,13 +17,18 @@ namespace XMLEditor
     {
         public int counter=0;
         private XmlEditor editor;
+
+        //DefaultSetting
+        private String TARGETTAGNAME = "GUID";
+        private String RESULTFILENAME = "Result";
+        private String REPLACEDVALUE = "";
         public MainWindow()
         {
             InitializeComponent();
             editor = new XmlEditor(this);
-            save_Setting("ResultFileName", "Result");
-            save_Setting("TargetTagName", "GUID");
-            save_Setting("ReplacedValue", "");
+            save_Setting("ResultFileName", RESULTFILENAME);
+            save_Setting("TargetTagName", TARGETTAGNAME);
+            save_Setting("ReplacedValue", REPLACEDVALUE);
         }
         private void runEditor(object sender, RoutedEventArgs e)
         {
