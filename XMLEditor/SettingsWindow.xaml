@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XMLEditor"
         mc:Ignorable="d"
-        Title="Einstellungen" Height="200" Width="500">
+        Title="Einstellungen" Height="250" Width="500">
     <Window.Resources>
     </Window.Resources>
     <StackPanel HorizontalAlignment="Center">
@@ -23,6 +23,13 @@
                 <TextBlock Height="10" Width="61" FontSize="9"><Run Text="(Default:Result)"/></TextBlock>
             </StackPanel>
             <TextBox x:Name="resultName" Height="23" Width="307" Margin="10" MaxLength="50"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Height="18" Width="138" Orientation="Horizontal" >
+                <TextBlock Height="20" Width="78"><Run Text="Zelleninhalt"/></TextBlock>
+                <TextBlock Height="10" Width="61" FontSize="9"><Run Text="(Default:Leer)"/></TextBlock>
+            </StackPanel>
+            <TextBox x:Name="replacedName" Height="23" Width="307" Margin="10" MaxLength="50"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">

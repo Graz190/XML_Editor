@@ -148,15 +148,13 @@ namespace XMLEditor
                 FileInfo currentFile = new FileInfo(mw.openFilePathBox.Text);
                 doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
                 
-                //string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + "result" + currentFile.Extension);
-                //File.WriteAllLines(currentFile.Directory.FullName + "\\" + "result" + currentFile.Extension, lines);
 
                 string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
                 File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
 
                 mw.informationfield.TextAlignment = TextAlignment.Center;
                 mw.informationfield.Foreground = Brushes.Green;
-                mw.informationfield.Text = "Der Inhalt von GUID wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von GUID entfernt.";
+                mw.informationfield.Text = "Der Inhalt von "+read_Setting("TargetTagName")+" wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von "+ read_Setting("TargetTagName") + " entfernt.";
 
                 return true;
             }
