@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace XMLEditor
 {
@@ -50,7 +39,7 @@ namespace XMLEditor
             }
             else
             {
-                prop = new System.Configuration.SettingsProperty(property_name);
+                prop = new SettingsProperty(property_name);
                 prop.PropertyType= typeof(string);
                 Properties.Settings.Default.Properties.Add(prop);
                 Properties.Settings.Default.Save();
