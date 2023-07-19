@@ -23,6 +23,7 @@ namespace XMLEditor
             editor = new XmlEditor(this);
             save_Setting("ResultFileName", "Result");
             save_Setting("TargetTagName", "GUID");
+            save_Setting("ReplacedValue", "");
         }
         private void runEditor(object sender, RoutedEventArgs e)
         {
@@ -128,7 +129,7 @@ namespace XMLEditor
                 {
                     if(node.InnerText !=String.Empty)
                     {
-                        node.FirstChild.Value = "";
+                        node.FirstChild.Value = read_Setting("ReplacedValue");
                         Counter++;
                     }
                 }
