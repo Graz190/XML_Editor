@@ -10,6 +10,6 @@ Not a XML Editor you can replace all Values of a specific Node.
 ## TODO
 
 - [X] Implementation of Threads
-- [] add Filter
-- [] Placeholder Text in Textbox
-- [] Search for a Value in a specific Node
+- [ ] add Filter
+- [ ] Placeholder Text in Textbox
+- [ ] Search for a Value in a specific Node
