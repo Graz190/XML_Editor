@@ -6,6 +6,8 @@ using System.Windows.Media;
 using System.Xml;
 using System.IO;
 using System.Configuration;
+using System.Threading;
+using System.ComponentModel;
 
 namespace XMLEditor
 {
@@ -26,34 +28,63 @@ namespace XMLEditor
         {
             InitializeComponent();
             editor = new XmlEditor(this);
+            
+            worker1.DoWork += Worker1_DoWork;
+            worker1.RunWorkerCompleted += Worker1_RunWorkerCompleted;
             save_Setting("ResultFileName", RESULTFILENAME);
             save_Setting("TargetTagName", TARGETTAGNAME);
             save_Setting("ReplacedValue", REPLACEDVALUE);
         }
+        BackgroundWorker worker1 = new BackgroundWorker();
         private void runEditor(object sender, RoutedEventArgs e)
         {
             this.StartButton.IsEnabled = false;
 
             if (editor.read_Setting("ResultFileName")!=""){
-                if (!editor.runReplacer())
+                if (this.openFilePathBox.Text=="")
                 {
                     this.informationfield.TextAlignment = TextAlignment.Center;
                     this.informationfield.Foreground = Brushes.Red;
                     this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
+                }
+                else
+                {
+                    if (!worker1.IsBusy)
+                    {
+                        worker1.RunWorkerAsync();
+                    }
                 }
             }
             else
             {
-                
-                if (!editor.runReplacer())
-                {
                     this.informationfield.TextAlignment = TextAlignment.Center;
                     this.informationfield.Foreground = Brushes.Red;
                     this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
-                }
             }
             this.StartButton.IsEnabled = true;
         }
+
+        private void Worker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+
+        }
+
+        private void Worker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this.Dispatcher.Invoke(() => {
+                this.informationfield.TextAlignment = TextAlignment.Center;
+                this.informationfield.Foreground = Brushes.DarkOrange;
+                this.informationfield.Text = "Bitte warten Datei wird verarbeitet";
+            });
+            editor.runReplacer();
+  
+
+        }
+
         private void openFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -119,15 +150,18 @@ namespace XMLEditor
 
         public MainWindow mw { get; }
         public int Counter { get; set; }
-        public Boolean runReplacer()
-        {
-            
-            if (mw.openFilePathBox.Text != "")
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(mw.openFilePathBox.Text);
 
-                XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
+        public bool runReplacer()
+        {
+
+                XmlDocument doc = new XmlDocument();
+            String loadText = "";
+            mw.Dispatcher.Invoke(() =>
+            {
+                loadText = mw.openFilePathBox.Text;
+            });
+            doc.Load(loadText);
+            XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
                 Counter = 0;
 
                 foreach (XmlNode node in list)
@@ -138,20 +172,22 @@ namespace XMLEditor
                         Counter++;
                     }
                 }
-                FileInfo currentFile = new FileInfo(mw.openFilePathBox.Text);
+            FileInfo currentFile = new FileInfo(loadText);
+
                 doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
                 
 
                 string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
                 File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
 
+                mw.Dispatcher.Invoke(() =>
+                {
                 mw.informationfield.TextAlignment = TextAlignment.Center;
                 mw.informationfield.Foreground = Brushes.Green;
-                mw.informationfield.Text = "Der Inhalt von "+read_Setting("TargetTagName")+" wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von "+ read_Setting("TargetTagName") + " entfernt.";
-
+                mw.informationfield.Text = "Der Inhalt von " + read_Setting("TargetTagName") + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + read_Setting("TargetTagName") + " entfernt.";
+                    
+            });
                 return true;
-            }
-            return false;
         }
         public string read_Setting(string setting_Name) {
             string sResult = "";

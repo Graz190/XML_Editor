@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:XMLEditor"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="XML Editor" Height="250" Width="540">
+        Title="XML Editor" Height="230" Width="540">
     <StackPanel>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -16,12 +16,12 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Label  Height="40" Width="400" HorizontalAlignment="Center">
+        <Label  Height="40" Width="508" HorizontalContentAlignment="Center">
             <TextBlock Name="informationfield" HorizontalAlignment="Center"></TextBlock></Label>
         <Label Margin="0,10,300,0" Height="30" Width="200">Bitte Pfad zur XML Datei auswählen</Label>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <TextBox Name="openFilePathBox" Height="30" Width="400" IsReadOnly="True"/>
-            <Button x:Name="openFileButton" Click="openFile" Height="30" Width="100" Content="öffnen" Margin="10,0,0,0" />
+            <TextBox Name="openFilePathBox" Height="25" Width="400" IsReadOnly="True"/>
+            <Button x:Name="openFileButton" Click="openFile" Height="25" Width="100" Content="öffnen" Margin="10,0,0,0" />
         </StackPanel>
    
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
