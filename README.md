@@ -8,7 +8,8 @@ You can now find the `XMLEditor.exe` inside the `XML_Editor/XMLEditor/obj/Releas
 ## How to use
 
 ## TODO
-Implementation of Threads
-add Filter
-Placeholder Text in Textbox
-Search for a Value in a specific Node
+
+* Implementation of Threads
+* add Filter
+* Placeholder Text in Textbox
+* Search for a Value in a specific Node
