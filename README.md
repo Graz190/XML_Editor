@@ -9,8 +9,9 @@ Right now you can only replace all Values of a specific Node.
 ## How to use
 
 ## TODO
-
+This are my Todo list in no particularly Order
 - [X] Implementation of Threads
 - [ ] add Filter
 - [ ] Placeholder Text in Textbox
 - [ ] Search for a Value in a specific Node
+- [ ] Readme updating
