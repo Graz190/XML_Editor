@@ -1,13 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.ComponentModel;
+using System.Configuration;
+using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml;
-using System.IO;
-using System.Configuration;
-using System.Threading;
-using System.ComponentModel;
 
 namespace XMLEditor
 {
@@ -17,7 +17,7 @@ namespace XMLEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int counter=0;
+        public int counter = 0;
         private XmlEditor editor;
 
         //DefaultSetting
@@ -28,7 +28,7 @@ namespace XMLEditor
         {
             InitializeComponent();
             editor = new XmlEditor(this);
-            
+
             worker1.DoWork += Worker1_DoWork;
             worker1.RunWorkerCompleted += Worker1_RunWorkerCompleted;
             save_Setting("ResultFileName", RESULTFILENAME);
@@ -40,8 +40,9 @@ namespace XMLEditor
         {
             this.StartButton.IsEnabled = false;
 
-            if (editor.read_Setting("ResultFileName")!=""){
-                if (this.openFilePathBox.Text=="")
+            if (editor.read_Setting("ResultFileName") != "")
+            {
+                if (this.openFilePathBox.Text == "")
                 {
                     this.informationfield.TextAlignment = TextAlignment.Center;
                     this.informationfield.Foreground = Brushes.Red;
@@ -57,16 +58,16 @@ namespace XMLEditor
             }
             else
             {
-                    this.informationfield.TextAlignment = TextAlignment.Center;
-                    this.informationfield.Foreground = Brushes.Red;
-                    this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
+                this.informationfield.TextAlignment = TextAlignment.Center;
+                this.informationfield.Foreground = Brushes.Red;
+                this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
             }
             this.StartButton.IsEnabled = true;
         }
 
         private void Worker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(e.Error != null)
+            if (e.Error != null)
             {
                 MessageBox.Show(e.Error.Message);
             }
@@ -75,13 +76,14 @@ namespace XMLEditor
 
         private void Worker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            this.Dispatcher.Invoke(() => {
+            this.Dispatcher.Invoke(() =>
+            {
                 this.informationfield.TextAlignment = TextAlignment.Center;
                 this.informationfield.Foreground = Brushes.DarkOrange;
                 this.informationfield.Text = "Bitte warten Datei wird verarbeitet";
             });
             editor.runReplacer();
-  
+
 
         }
 
@@ -92,8 +94,8 @@ namespace XMLEditor
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             openFileDialog.Filter = "XML Dateien (*.xml)|*.xml";
 
-            if (openFileDialog.ShowDialog() == true)openFilePathBox.Text =  openFileDialog.FileName;
-            
+            if (openFileDialog.ShowDialog() == true) openFilePathBox.Text = openFileDialog.FileName;
+
         }
         private void shutdownApp(object sender, RoutedEventArgs e)
         {
@@ -104,15 +106,15 @@ namespace XMLEditor
         {
             Control ctrl = sender as Control;
 
-            if(ctrl!= null)
+            if (ctrl != null)
             {
                 String name = ctrl.Name;
-                if(name == "Einstellung")
+                if (name == "Einstellung")
                 {
                     SettingsWindow win1 = new SettingsWindow();
                     win1.ShowDialog();
                 }
-                else if(name == "Credit")
+                else if (name == "Credit")
                 {
                     MessageBox.Show("XML Editor Version 0.0.5\n\nMade with Love by Christian Fagherazzi", "Credits");
                 }
@@ -154,7 +156,7 @@ namespace XMLEditor
         public bool runReplacer()
         {
 
-                XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument();
             String loadText = "";
             mw.Dispatcher.Invoke(() =>
             {
@@ -162,34 +164,35 @@ namespace XMLEditor
             });
             doc.Load(loadText);
             XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
-                Counter = 0;
+            Counter = 0;
 
-                foreach (XmlNode node in list)
+            foreach (XmlNode node in list)
+            {
+                if (node.InnerText != String.Empty)
                 {
-                    if(node.InnerText !=String.Empty)
-                    {
-                        node.FirstChild.Value = read_Setting("ReplacedValue");
-                        Counter++;
-                    }
+                    node.FirstChild.Value = read_Setting("ReplacedValue");
+                    Counter++;
                 }
+            }
             FileInfo currentFile = new FileInfo(loadText);
 
-                doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-                
+            doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
 
-                string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-                File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
 
-                mw.Dispatcher.Invoke(() =>
-                {
+            string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
+            File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
+
+            mw.Dispatcher.Invoke(() =>
+            {
                 mw.informationfield.TextAlignment = TextAlignment.Center;
                 mw.informationfield.Foreground = Brushes.Green;
                 mw.informationfield.Text = "Der Inhalt von " + read_Setting("TargetTagName") + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + read_Setting("TargetTagName") + " entfernt.";
-                    
+
             });
-                return true;
+            return true;
         }
-        public string read_Setting(string setting_Name) {
+        public string read_Setting(string setting_Name)
+        {
             string sResult = "";
             if (Properties.Settings.Default.Properties[setting_Name] != null)
             {
