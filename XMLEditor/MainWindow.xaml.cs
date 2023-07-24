@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -38,10 +37,11 @@ namespace XMLEditor
         BackgroundWorker worker1 = new BackgroundWorker();
         private void runEditor(object sender, RoutedEventArgs e)
         {
-            this.StartButton.IsEnabled = false;
+            
 
             if (editor.read_Setting("ResultFileName") != "")
             {
+                this.StartButton.IsEnabled = false;
                 if (this.openFilePathBox.Text == "")
                 {
                     this.informationfield.TextAlignment = TextAlignment.Center;
@@ -54,6 +54,7 @@ namespace XMLEditor
                     {
                         worker1.RunWorkerAsync();
                     }
+                    this.StartButton.IsEnabled = true;
                 }
             }
             else
@@ -62,7 +63,6 @@ namespace XMLEditor
                 this.informationfield.Foreground = Brushes.Red;
                 this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
             }
-            this.StartButton.IsEnabled = true;
         }
 
         private void Worker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -71,7 +71,6 @@ namespace XMLEditor
             {
                 MessageBox.Show(e.Error.Message);
             }
-
         }
 
         private void Worker1_DoWork(object sender, DoWorkEventArgs e)
@@ -83,8 +82,6 @@ namespace XMLEditor
                 this.informationfield.Text = "Bitte warten Datei wird verarbeitet";
             });
             editor.runReplacer();
-
-
         }
 
         private void openFile(object sender, RoutedEventArgs e)
@@ -117,6 +114,17 @@ namespace XMLEditor
                 else if (name == "Credit")
                 {
                     MessageBox.Show("XML Editor Version 0.0.5\n\nMade with Love by Christian Fagherazzi", "Credits");
+                }
+                else if (name == "Suche")
+                {
+                    if(this.replaceWindow.Visibility != Visibility.Hidden)
+                    {
+                        this.replaceWindow.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        this.replaceWindow.Visibility = Visibility.Visible;
+                    }
                 }
             }
         }
@@ -152,45 +160,52 @@ namespace XMLEditor
 
         public MainWindow mw { get; }
         public int Counter { get; set; }
-
-        public bool runReplacer()
+        public void runSearchValue(String searchTag)
         {
 
-            XmlDocument doc = new XmlDocument();
-            String loadText = "";
-            mw.Dispatcher.Invoke(() =>
-            {
-                loadText = mw.openFilePathBox.Text;
-            });
-            doc.Load(loadText);
-            XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
-            Counter = 0;
-
-            foreach (XmlNode node in list)
-            {
-                if (node.InnerText != String.Empty)
-                {
-                    node.FirstChild.Value = read_Setting("ReplacedValue");
-                    Counter++;
-                }
-            }
-            FileInfo currentFile = new FileInfo(loadText);
-
-            doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-
-
-            string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-            File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
-
-            mw.Dispatcher.Invoke(() =>
-            {
-                mw.informationfield.TextAlignment = TextAlignment.Center;
-                mw.informationfield.Foreground = Brushes.Green;
-                mw.informationfield.Text = "Der Inhalt von " + read_Setting("TargetTagName") + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + read_Setting("TargetTagName") + " entfernt.";
-
-            });
-            return true;
         }
+        public void runReplacer()
+        {
+            int caseNumber = 1;
+            switch (caseNumber)
+            {
+                case 1:
+                    XmlDocument doc = new XmlDocument();
+                    String loadText = "";
+                    mw.Dispatcher.Invoke(() =>
+                    {
+                        loadText = mw.openFilePathBox.Text;
+                    });
+                    doc.Load(loadText);
+                    XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
+                    Counter = 0;
+
+                    foreach (XmlNode node in list)
+                    {
+                        if (node.InnerText != String.Empty)
+                        {
+                            node.FirstChild.Value = read_Setting("ReplacedValue");
+                            Counter++;
+                        }
+                    }
+                    FileInfo currentFile = new FileInfo(loadText);
+
+                    doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
+
+
+                    string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
+                    File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
+
+                    mw.Dispatcher.Invoke(() =>
+                    {
+                        mw.informationfield.TextAlignment = TextAlignment.Center;
+                        mw.informationfield.Foreground = Brushes.Green;
+                        mw.informationfield.Text = "Der Inhalt von " + read_Setting("TargetTagName") + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + read_Setting("TargetTagName") + " entfernt.";
+                    });
+                    break;
+            }
+        }
+ 
         public string read_Setting(string setting_Name)
         {
             string sResult = "";

@@ -6,7 +6,6 @@ C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\XMLEd
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\MainWindow.g.cs
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\App.g.cs
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\XMLEditor_MarkupCompile.cache
-C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\XMLEditor_MarkupCompile.lref
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\MainWindow.baml
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\XMLEditor.g.resources
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\XMLEditor.Properties.Resources.resources
