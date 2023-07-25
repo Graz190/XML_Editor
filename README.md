@@ -14,4 +14,5 @@ This are my Todo list in no particularly Order
 - [ ] add Filter
 - [ ] Placeholder Text in Textbox
 - [ ] Search for a Value in a specific Node
+- [X] Search for all Values with the same Tag Name
 - [ ] Readme updating
