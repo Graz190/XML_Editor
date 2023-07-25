@@ -11,7 +11,7 @@ Far away to be a XML Editor <br>
 ## How to use
 
 ## TODO
-This are my Todo list in no particularly Order
+Todo list in no particularly Order
 - [X] Implementation of Threads
 - [ ] add Filter
 - [ ] Placeholder Text in Textbox
