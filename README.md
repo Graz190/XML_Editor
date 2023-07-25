@@ -1,6 +1,6 @@
 # XML_Editor Version 0.0.6
 Far away to be a XML Editor <br>
-##Feature
+## Feature
 * Replace all Values of a specific Node with the same Value.
 * Search for all Values with the same Tag Name
 
