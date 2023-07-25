@@ -6,94 +6,37 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Xml;
+using XMLEditor.Setting;
 
 namespace XMLEditor
 {
 
     /// <summary>
-    /// Interaktionslogik für mw.xaml
+    /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int counter = 0;
-        private XmlEditor editor;
 
         //DefaultSetting
         private String TARGETTAGNAME = "GUID";
         private String RESULTFILENAME = "Result";
         private String REPLACEDVALUE = "";
+        private Page rp;
+        private Page sp;
         public MainWindow()
         {
             InitializeComponent();
-            editor = new XmlEditor(this);
-
-            worker1.DoWork += Worker1_DoWork;
-            worker1.RunWorkerCompleted += Worker1_RunWorkerCompleted;
-            save_Setting("ResultFileName", RESULTFILENAME);
-            save_Setting("TargetTagName", TARGETTAGNAME);
-            save_Setting("ReplacedValue", REPLACEDVALUE);
-        }
-        BackgroundWorker worker1 = new BackgroundWorker();
-        private void runEditor(object sender, RoutedEventArgs e)
-        {
-            
-
-            if (editor.read_Setting("ResultFileName") != "")
-            {
-                this.StartButton.IsEnabled = false;
-                if (this.openFilePathBox.Text == "")
-                {
-                    this.informationfield.TextAlignment = TextAlignment.Center;
-                    this.informationfield.Foreground = Brushes.Red;
-                    this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
-                }
-                else
-                {
-                    if (!worker1.IsBusy)
-                    {
-                        worker1.RunWorkerAsync();
-                    }
-                    this.StartButton.IsEnabled = true;
-                }
-            }
-            else
-            {
-                this.informationfield.TextAlignment = TextAlignment.Center;
-                this.informationfield.Foreground = Brushes.Red;
-                this.informationfield.Text = "Bitte wählen sie die Xml Datei aus";
-            }
-        }
-
-        private void Worker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                MessageBox.Show(e.Error.Message);
-            }
-        }
-
-        private void Worker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                this.informationfield.TextAlignment = TextAlignment.Center;
-                this.informationfield.Foreground = Brushes.DarkOrange;
-                this.informationfield.Text = "Bitte warten Datei wird verarbeitet";
-            });
-            editor.runReplacer();
-        }
-
-        private void openFile(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            openFileDialog.Filter = "XML Dateien (*.xml)|*.xml";
-
-            if (openFileDialog.ShowDialog() == true) openFilePathBox.Text = openFileDialog.FileName;
+            PropertySetting.save_Setting(SettingsName.ResultFile, RESULTFILENAME);
+            PropertySetting.save_Setting(SettingsName.TargetTag, TARGETTAGNAME);
+            PropertySetting.save_Setting(SettingsName.Replaced, REPLACEDVALUE);
+            rp = new ReplacePage(this);
+            sp = new SearchPage(this);
+            Main.Content = rp;
 
         }
+
         private void shutdownApp(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -117,105 +60,29 @@ namespace XMLEditor
                 }
                 else if (name == "Suche")
                 {
-                    if(this.replaceWindow.Visibility != Visibility.Hidden)
+                    changeInformationText(ColorText.defaultColor, "");
+                    if(Main.Content == rp)
                     {
-                        this.replaceWindow.Visibility = Visibility.Hidden;
+                        Main.Content = sp;
                     }
                     else
                     {
-                        this.replaceWindow.Visibility = Visibility.Visible;
+                        Main.Content = rp;
                     }
                 }
             }
         }
-        private void save_Setting(string setting_Name, string setting_Value)
+        /// <summary>
+        /// Change Information Text
+        /// </summary>
+        /// <param name="brush">Color of the font</param>
+        /// <param name="text">Displayed Text</param>
+        public void changeInformationText(SolidColorBrush brush,String text)
         {
-            string property_name = setting_Name;
-
-            SettingsProperty prop = null;
-            if (Properties.Settings.Default.Properties[property_name] != null)
-            {
-                prop = Properties.Settings.Default.Properties[property_name];
-            }
-            else
-            {
-                prop = new SettingsProperty(property_name);
-                prop.PropertyType = typeof(string);
-                Properties.Settings.Default.Properties.Add(prop);
-                Properties.Settings.Default.Save();
-            }
-            Properties.Settings.Default.Properties[property_name].DefaultValue = setting_Value;
-
-            Properties.Settings.Default.Save();
+            this.informationfield.TextAlignment = TextAlignment.Center;
+            this.informationfield.Foreground = brush;
+            this.informationfield.Text = text;
         }
     }
 
-    internal class XmlEditor
-    {
-        public XmlEditor(MainWindow mainWindow)
-        {
-            mw = mainWindow;
-        }
-
-
-        public MainWindow mw { get; }
-        public int Counter { get; set; }
-        public void runSearchValue(String searchTag)
-        {
-
-        }
-        public void runReplacer()
-        {
-            int caseNumber = 1;
-            switch (caseNumber)
-            {
-                case 1:
-                    XmlDocument doc = new XmlDocument();
-                    String loadText = "";
-                    mw.Dispatcher.Invoke(() =>
-                    {
-                        loadText = mw.openFilePathBox.Text;
-                    });
-                    doc.Load(loadText);
-                    XmlNodeList list = doc.GetElementsByTagName(read_Setting("TargetTagName"));
-                    Counter = 0;
-
-                    foreach (XmlNode node in list)
-                    {
-                        if (node.InnerText != String.Empty)
-                        {
-                            node.FirstChild.Value = read_Setting("ReplacedValue");
-                            Counter++;
-                        }
-                    }
-                    FileInfo currentFile = new FileInfo(loadText);
-
-                    doc.Save(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-
-
-                    string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension);
-                    File.WriteAllLines(currentFile.Directory.FullName + "\\" + read_Setting("ResultFileName") + currentFile.Extension, lines);
-
-                    mw.Dispatcher.Invoke(() =>
-                    {
-                        mw.informationfield.TextAlignment = TextAlignment.Center;
-                        mw.informationfield.Foreground = Brushes.Green;
-                        mw.informationfield.Text = "Der Inhalt von " + read_Setting("TargetTagName") + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + read_Setting("TargetTagName") + " entfernt.";
-                    });
-                    break;
-            }
-        }
- 
-        public string read_Setting(string setting_Name)
-        {
-            string sResult = "";
-            if (Properties.Settings.Default.Properties[setting_Name] != null)
-            {
-                sResult = Properties.Settings.Default.Properties[setting_Name].DefaultValue.ToString();
-            }
-            if (sResult == "NaN") sResult = "0";
-
-            return sResult;
-        }
-    }
 }

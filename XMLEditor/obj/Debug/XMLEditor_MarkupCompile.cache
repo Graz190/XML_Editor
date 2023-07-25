@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\App.xaml
-21397482308
+4-1809250178
 
-6-59595722
+14-107254640
 13-1310406943
-MainWindow.xaml;SettingsWindow.xaml;
+MainWindow.xaml;Pages\ReplacePage.xaml;Pages\SearchPage.xaml;Setting\SettingsWindow.xaml;
 
 False
 
