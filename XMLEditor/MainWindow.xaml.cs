@@ -56,7 +56,7 @@ namespace XMLEditor
                 }
                 else if (name == "Credit")
                 {
-                    MessageBox.Show("XML Editor Version 0.0.5\n\nMade with Love by Christian Fagherazzi", "Credits");
+                    MessageBox.Show("XML Editor Version 0.0.6\n\nMade with Love by Christian Fagherazzi", "Credits");
                 }
                 else if (name == "Suche")
                 {
