@@ -1,4 +1,4 @@
-# XML_Editor Version 0.0.5
+# XML_Editor Version 0.0.6
 Far away to be a XML Editor <br>
 Right now you can only replace all Values of a specific Node.
 
