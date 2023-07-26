@@ -20,3 +20,5 @@ C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages\SearchPage.g.cs
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Setting\SettingsWindow.g.cs
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages\ReplacePage.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\App.baml

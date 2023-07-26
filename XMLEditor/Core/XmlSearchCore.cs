@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,15 +15,17 @@ namespace XMLEditor.Core
     internal class XmlSearchCore
     {
         MainWindow window;
-        List<ValueID> listValueID;
+        ObservableCollection<ValueID> listValueID;
        public XmlSearchCore(MainWindow mw)
         {
             window = mw;
-            listValueID = new List<ValueID>();
+            listValueID = new ObservableCollection<ValueID>();
+            
            
         }
-        public List<ValueID> basicSearch(String searchTerm)
+        public void basicSearch(String searchTerm, ViewModel.MainViewModel mainViewModel)
         {
+            window.Dispatcher.BeginInvoke(new Action(() => { mainViewModel.DataGridItems.Clear(); }));
             XmlDocument doc = new XmlDocument();
             String loadText = "";
             window.Dispatcher.Invoke(() =>
@@ -36,10 +39,14 @@ namespace XMLEditor.Core
             {
                 if (node.InnerText != String.Empty)
                 {
-                    listValueID.Add(new ValueID() { Id=counterID++, Value=node.FirstChild.Value });
+                    window.Dispatcher.Invoke(() => { mainViewModel.DataGridItems.Add(new ValueID() { ID = counterID++, Value = node.FirstChild.Value }); });
+                    
                 }
             }
-            return listValueID;
+            window.Dispatcher.Invoke(() =>
+            {
+                window.changeInformationText(ColorText.success, "Es wurden " +counterID+ " mit dem Term "+PropertySetting.read_Setting(SettingsName.searchTerm) + " gefunden.");
+            });
             
         }
     }

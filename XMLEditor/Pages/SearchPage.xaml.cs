@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ using System.Windows.Shapes;
 using XMLEditor.Core;
 using XMLEditor.Pages;
 using XMLEditor.Setting;
+using XMLEditor.ViewModel;
 
 namespace XMLEditor
 {
@@ -28,6 +30,7 @@ namespace XMLEditor
         BackgroundWorker worker1 = new BackgroundWorker();
         MainWindow window;
         XmlSearchCore searchCore;
+        MainViewModel mainViewModel;
         public SearchPage(MainWindow window)
         {
             InitializeComponent();
@@ -35,6 +38,8 @@ namespace XMLEditor
             worker1.RunWorkerCompleted += Worker1_RunWorkerCompleted;
             this.window = window;
             searchCore = new XmlSearchCore(window);
+            MainViewModel mainViewModel = new MainViewModel();
+            DataContext = mainViewModel;
         }
         private void runSearch(object sender, RoutedEventArgs e)
         {
@@ -83,18 +88,14 @@ namespace XMLEditor
 
         private void Worker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            
-
             this.Dispatcher.Invoke(() =>
             {
+                this.searchTermLabel.Content = "";
                 this.searchTermLabel.Content = PropertySetting.read_Setting(SettingsName.searchTerm);
                 window.changeInformationText(ColorText.loading, "Bitte warten Datei wird verarbeitet");
+                mainViewModel = DataContext as MainViewModel;
             });
-            List<ValueID> values = searchCore.basicSearch(SettingsName.searchTerm);
-            this.Dispatcher.Invoke(() =>
-            {
-                dgIdValue.ItemsSource = values;
-            });
+            searchCore.basicSearch(SettingsName.searchTerm, mainViewModel);
             
         }
 
