@@ -12,22 +12,26 @@
         <StackPanel x:Name="searchWindow">
             <Label Margin="0,10,300,0" Height="30" Width="200">Bitte Pfad zur XML Datei auswählen</Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                <TextBox Name="openFilePathBox" Height="25" Width="400" IsReadOnly="True" />
-                <Button x:Name="openFileButton" Click="openFile" Height="25" Width="100" Content="öffnen" Margin="10,0,0,0" />
+                <TextBox Name="openFilePathBox" Height="25" Width="390" IsReadOnly="True" />
+                <Button x:Name="openFileButton" Click="OpenFile" Height="25" Width="100" Content="öffnen" Margin="10,0,0,0" />
             </StackPanel>
             <StackPanel Margin="10" HorizontalAlignment="Center">
+
                 <Label>Bitte gesuchter Term angeben</Label>
-                <TextBox Name="searchTermBox" Height="25" Width="510"/>
+                <TextBox Name="searchTermBox" Height="25" Width="500" KeyDown="SearchTermBox_KeyDown"/>
+                <Label>Weitere gesuchter Term angeben (Optional)</Label>
+                <TextBox Name="searchTermBox2" Height="25" Width="500" KeyDown="SearchTermBox_KeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button x:Name="StartButton" Click="runSearch" Height="30" Width="150" Content="Start" Margin="0,0,100,0" IsEnabled="True"/>
-                <Button x:Name="ExitButton" Click="shutdownApp" Height="30" Width="150" Content="Exit"/>
+                <Button x:Name="StartButton" Click="RunSearch" Height="30" Width="150" Content="Start" Margin="0,0,100,0" IsEnabled="True"/>
+                <Button x:Name="ExitButton" Click="ShutdownApp" Height="30" Width="150" Content="Exit"/>
             </StackPanel>
             <Label Name="searchTermLabel" HorizontalAlignment="Center"/>
             <DataGrid Name="dgIdValue" ItemsSource="{Binding DataGridItems, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="20" VerticalScrollBarVisibility="Auto" MaxHeight="300" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
                     <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="Value2" Binding="{Binding Value2}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

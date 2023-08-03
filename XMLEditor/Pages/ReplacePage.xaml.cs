@@ -13,9 +13,8 @@ namespace XMLEditor
     /// </summary>
     public partial class ReplacePage : Page
     {
-        public int counter = 0;
-        private XmlEditorCore editor;
-        private MainWindow window;
+        private readonly XmlEditorCore editor;
+        private readonly MainWindow window;
         public ReplacePage(MainWindow mw)
         {
             InitializeComponent();
@@ -24,22 +23,23 @@ namespace XMLEditor
 
             worker1.DoWork += Worker1_DoWork;
             worker1.RunWorkerCompleted += Worker1_RunWorkerCompleted;
-
         }
-        BackgroundWorker worker1 = new BackgroundWorker();
 
+        private readonly BackgroundWorker worker1 = new BackgroundWorker();
 
-        private void runEditor(object sender, RoutedEventArgs e)
+        public int Counter { get; set; } = 0;
+
+        private void RunEditor(object sender, RoutedEventArgs e)
         {
-            if (PropertySetting.read_Setting(SettingsName.ResultFile) != "")
+            if (PropertySetting.Read_Setting(SettingsName.ResultFile) != "")
             {
                 if (this.openFilePathBox.Text == "")
                 {
-                    window.changeInformationText(ColorText.error, "Bitte wählen sie die Xml Datei aus");
+                    window.ChangeInformationText(ColorText.error, "Bitte wählen sie die Xml Datei aus");
                 }
                 else
                 {
-                    PropertySetting.save_Setting(SettingsName.FilePath, this.openFilePathBox.Text);
+                    PropertySetting.Save_Setting(SettingsName.FilePath, openFilePathBox.Text);
                     if (!worker1.IsBusy)
                     {
                         worker1.RunWorkerAsync();
@@ -48,7 +48,7 @@ namespace XMLEditor
             }
             else
             {
-                window.changeInformationText(ColorText.error, "Bitte wählen sie die Xml Datei aus");
+                window.ChangeInformationText(ColorText.error, "Bitte wählen sie die Xml Datei aus");
             }
         }
 
@@ -64,22 +64,24 @@ namespace XMLEditor
         {
             this.Dispatcher.Invoke(() =>
             {
-                window.changeInformationText(ColorText.loading, "Bitte warten Datei wird verarbeitet");
+                window.ChangeInformationText(ColorText.loading, "Bitte warten Datei wird verarbeitet");
             });
             editor.runReplacer();
         }
 
-        private void openFile(object sender, RoutedEventArgs e)
+        private void OpenFile(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            openFileDialog.Filter = "XML Dateien (*.xml)|*.xml";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "XML Dateien (*.xml)|*.xml"
+            };
 
             if (openFileDialog.ShowDialog() == true) openFilePathBox.Text = openFileDialog.FileName;
 
+            StartButton.Focus();
         }
-        private void shutdownApp(object sender, RoutedEventArgs e)
+        private void ShutdownApp(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }

@@ -14,5 +14,7 @@ namespace XMLEditor.Setting
         public static readonly String FilePath = "FilePath";
         public static readonly String TargetTagName = "TargetTagName";
         public static readonly String searchTerm = "SearchTermName";
+        public static readonly String searchTerm2 = "SearchTermName2";
+        public static readonly String IDName = "0000";
     }
 }

@@ -1,27 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XMLEditor.Setting
 {
     internal class PropertySetting
     {
-        public static void save_Setting(string setting_Name, string setting_Value)
+        public static void Save_Setting(string setting_Name, string setting_Value)
         {
-            string property_name = setting_Name;
+            if (setting_Value is null)
+            {
+                throw new ArgumentNullException(nameof(setting_Value));
+            }
 
-            SettingsProperty prop = null;
+            var property_name = setting_Name;
+
+            SettingsProperty prop;
             if (Properties.Settings.Default.Properties[property_name] != null)
             {
                 prop = Properties.Settings.Default.Properties[property_name];
             }
             else
             {
-                prop = new SettingsProperty(property_name);
-                prop.PropertyType = typeof(string);
+                prop = new SettingsProperty(property_name)
+                {
+                    PropertyType = typeof(string)
+                };
                 Properties.Settings.Default.Properties.Add(prop);
                 Properties.Settings.Default.Save();
             }
@@ -29,7 +32,7 @@ namespace XMLEditor.Setting
 
             Properties.Settings.Default.Save();
         }
-        public static string read_Setting(string setting_Name)
+        public static string Read_Setting(string setting_Name)
         {
             string sResult = "";
             if (Properties.Settings.Default.Properties[setting_Name] != null)

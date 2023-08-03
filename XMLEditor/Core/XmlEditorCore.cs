@@ -35,31 +35,31 @@ namespace XMLEditor
                     String loadText = "";
                     mw.Dispatcher.Invoke(() =>
                     {
-                        loadText = PropertySetting.read_Setting(SettingsName.FilePath);
+                        loadText = PropertySetting.Read_Setting(SettingsName.FilePath);
                     });
                     doc.Load(loadText);
-                    XmlNodeList list = doc.GetElementsByTagName(PropertySetting.read_Setting(SettingsName.TargetTag));
+                    XmlNodeList list = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.TargetTag));
                     Counter = 0;
 
                     foreach (XmlNode node in list)
                     {
                         if (node.InnerText != String.Empty)
                         {
-                            node.FirstChild.Value = PropertySetting.read_Setting(SettingsName.Replaced);
+                            node.FirstChild.Value = PropertySetting.Read_Setting(SettingsName.Replaced);
                             Counter++;
                         }
                     }
                     FileInfo currentFile = new FileInfo(loadText);
 
-                    doc.Save(currentFile.Directory.FullName + "\\" + PropertySetting.read_Setting(SettingsName.ResultFile) + currentFile.Extension);
+                    doc.Save(currentFile.Directory.FullName + "\\" + PropertySetting.Read_Setting(SettingsName.ResultFile) + currentFile.Extension);
 
 
-                    string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + PropertySetting.read_Setting(SettingsName.ResultFile) + currentFile.Extension);
-                    File.WriteAllLines(currentFile.Directory.FullName + "\\" + PropertySetting.read_Setting(SettingsName.ResultFile) + currentFile.Extension, lines);
+                    string[] lines = File.ReadAllLines(currentFile.Directory.FullName + "\\" + PropertySetting.Read_Setting(SettingsName.ResultFile) + currentFile.Extension);
+                    File.WriteAllLines(currentFile.Directory.FullName + "\\" + PropertySetting.Read_Setting(SettingsName.ResultFile) + currentFile.Extension, lines);
 
                     mw.Dispatcher.Invoke(() =>
                     {
-                        mw.changeInformationText(ColorText.success, "Der Inhalt von " + PropertySetting.read_Setting(SettingsName.TargetTag) + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + PropertySetting.read_Setting(SettingsName.TargetTag) + " entfernt.");
+                        mw.ChangeInformationText(ColorText.success, "Der Inhalt von " + PropertySetting.Read_Setting(SettingsName.TargetTag) + " wurde erfolgreich entfernt. \n" + "Es wurden " + Counter + " Inhalte von " + PropertySetting.Read_Setting(SettingsName.TargetTag) + " entfernt.");
                     });
                     break;
             }

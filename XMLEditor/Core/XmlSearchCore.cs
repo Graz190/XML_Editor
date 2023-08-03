@@ -8,40 +8,95 @@ namespace XMLEditor.Core
 {
     internal class XmlSearchCore
     {
-        MainWindow window;
-        ObservableCollection<ValueID> listValueID;
-       public XmlSearchCore(MainWindow mw)
+        readonly MainWindow window;
+        private readonly ObservableCollection<ValueID> listValueID;
+        public XmlSearchCore(MainWindow mw)
         {
             window = mw;
             listValueID = new ObservableCollection<ValueID>();
-            
-           
+
+
         }
-        public void basicSearch(String searchTerm, ViewModel.MainViewModel mainViewModel)
+
+        internal ObservableCollection<ValueID> ListValueID => listValueID;
+
+        public void BasicSearch(ViewModel.MainViewModel mainViewModel)
+        {
+            window.Dispatcher.BeginInvoke(new Action(() => { mainViewModel.DataGridItems.Clear(); }));
+            var doc = new XmlDocument();
+            var loadText = "";
+            window.Dispatcher.Invoke(() =>
+            {
+                loadText = PropertySetting.Read_Setting(SettingsName.FilePath);
+            });
+            doc.Load(loadText);
+            var list = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm));
+            var list2 = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm2));
+            int counterID = 0;
+            if (string.IsNullOrEmpty(PropertySetting.Read_Setting(SettingsName.searchTerm2)))
+            {
+                foreach (XmlNode node in list)
+                {
+                    if (node.InnerText != String.Empty)
+                    {
+                        window.Dispatcher.Invoke(() => { mainViewModel.DataGridItems.Add(new ValueID() { ID = counterID, Value = node.FirstChild.Value, Value2 = list2[counterID].FirstChild.Value }); });
+                        counterID++;
+                    }
+                }
+                window.Dispatcher.Invoke(() =>
+                {
+                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + PropertySetting.Read_Setting(SettingsName.searchTerm) + " und " + PropertySetting.Read_Setting(SettingsName.searchTerm2) + " gefunden.");
+                });
+            }
+            else
+            {
+                foreach (XmlNode node in list)
+                {
+                    if (node.InnerText != String.Empty)
+                    {
+                        window.Dispatcher.Invoke(() => { mainViewModel.DataGridItems.Add(new ValueID() { ID = counterID++, Value = node.FirstChild.Value, Value2 = "" }); });
+
+                    }
+                }
+                window.Dispatcher.Invoke(() =>
+                {
+                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + PropertySetting.Read_Setting(SettingsName.searchTerm) + " gefunden.");
+                });
+            }
+
+        }
+        public void IdSearch(ViewModel.MainViewModel mainViewModel)
         {
             window.Dispatcher.BeginInvoke(new Action(() => { mainViewModel.DataGridItems.Clear(); }));
             XmlDocument doc = new XmlDocument();
             String loadText = "";
             window.Dispatcher.Invoke(() =>
             {
-                loadText = PropertySetting.read_Setting(SettingsName.FilePath);
+                loadText = PropertySetting.Read_Setting(SettingsName.FilePath);
             });
             doc.Load(loadText);
-            XmlNodeList list = doc.GetElementsByTagName(PropertySetting.read_Setting(SettingsName.searchTerm));
-            int counterID = 0;
-            foreach (XmlNode node in list)
+            XmlNodeList list = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm));
+            XmlNodeList list2 = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm2));
+            if (PropertySetting.Read_Setting(SettingsName.searchTerm) != "")
             {
-                if (node.InnerText != String.Empty)
+                XmlNode parent = null;
+                foreach (XmlNode node in list)
                 {
-                    window.Dispatcher.Invoke(() => { mainViewModel.DataGridItems.Add(new ValueID() { ID = counterID++, Value = node.FirstChild.Value }); });
-                    
+                    if (node.InnerText != String.Empty)
+                    {
+                        if (node.InnerText.Equals(PropertySetting.Read_Setting(SettingsName.IDName)))
+                        {
+
+                            parent = node.ParentNode;
+                            break;
+                        }
+                    }
                 }
+                var selectedParentNode = parent.CreateNavigator();
+                var selectedNode = selectedParentNode.SelectSingleNode(PropertySetting.Read_Setting(SettingsName.searchTerm));
+                window.Dispatcher.Invoke(() => { mainViewModel.DataGridItems.Add(new ValueID() { ID = 1, Value = SettingsName.IDName, Value2 = selectedNode.InnerXml }); });
+
             }
-            window.Dispatcher.Invoke(() =>
-            {
-                window.changeInformationText(ColorText.success, "Es wurden " +counterID+ " mit dem Term "+PropertySetting.read_Setting(SettingsName.searchTerm) + " gefunden.");
-            });
-            
         }
     }
 }
