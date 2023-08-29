@@ -22,4 +22,5 @@ Todo list in no particularly Order
 - [ ] improve UI
 - [X] add option to transform XML to CSV
 - [ ] repair damage or bad formattet XML
+- [ ] clear all Values
 - [ ] Readme updating
