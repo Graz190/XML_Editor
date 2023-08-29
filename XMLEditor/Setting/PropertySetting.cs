@@ -17,7 +17,7 @@ namespace XMLEditor.Setting
             SettingsProperty prop;
             if (Properties.Settings.Default.Properties[property_name] != null)
             {
-                prop = Properties.Settings.Default.Properties[property_name];
+                _ = Properties.Settings.Default.Properties[property_name];
             }
             else
             {

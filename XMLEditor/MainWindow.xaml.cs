@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Xml;
+using XMLEditor.Pages;
 using XMLEditor.Setting;
 using XMLEditor.ViewModel;
 
@@ -26,6 +27,7 @@ namespace XMLEditor
         private readonly string REPLACEDVALUE = "";
         private readonly Page rp;
         private readonly Page sp;
+        private readonly Page tp;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +36,7 @@ namespace XMLEditor
             PropertySetting.Save_Setting(SettingsName.Replaced, REPLACEDVALUE);
             rp = new ReplacePage(this);
             sp = new SearchPage(this);
+            tp = new TransformerPage(this);
             Main.Content = rp;
             DataContext = new MainViewModel();
         }
@@ -62,9 +65,21 @@ namespace XMLEditor
             else if (name == "Suche")
             {
                 ChangeInformationText(ColorText.defaultColor, "");
-                if (Main.Content == rp)
+                if (Main.Content != sp)
                 {
                     Main.Content = sp;
+                }
+                else
+                {
+                    Main.Content = rp;
+                }
+            }
+            else if (name == "CSVTransformer")
+            {
+                ChangeInformationText(ColorText.defaultColor, "");
+                if (Main.Content != tp)
+                {
+                    Main.Content = tp;
                 }
                 else
                 {

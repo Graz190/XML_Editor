@@ -14,5 +14,13 @@ C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XML
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.csproj.CoreCompileInputs.cache
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.exe
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\XMLEditor.pdb
-C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\SettingsWindow.g.cs
-C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\SettingsWindow.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Setting\SettingsWindow.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\ReplacePage.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\SearchPage.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\TransformerPage.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Setting\SettingsWindow.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\App.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\ReplacePage.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\SearchPage.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Release\Pages\TransformerPage.baml

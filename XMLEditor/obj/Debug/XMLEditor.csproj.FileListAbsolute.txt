@@ -22,3 +22,5 @@ C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Setti
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages\ReplacePage.baml
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\App.baml
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages\TransformerPage.g.cs
+C:\Users\NCTR Admin\Visual Studio Workspace\XML_Editor\XMLEditor\obj\Debug\Pages\TransformerPage.baml

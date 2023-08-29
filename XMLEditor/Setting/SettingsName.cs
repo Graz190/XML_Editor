@@ -12,6 +12,7 @@ namespace XMLEditor.Setting
         public static readonly String Replaced = "ReplacedValue";
         public static readonly String ResultFile = "ResultFileName";
         public static readonly String FilePath = "FilePath";
+        public static readonly String FilePath2 = "FilePath2";
         public static readonly String TargetTagName = "TargetTagName";
         public static readonly String searchTerm = "SearchTermName";
         public static readonly String searchTerm2 = "SearchTermName2";

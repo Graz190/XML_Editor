@@ -23,17 +23,21 @@ namespace XMLEditor.Core
         public void BasicSearch(ViewModel.MainViewModel mainViewModel)
         {
             window.Dispatcher.BeginInvoke(new Action(() => { mainViewModel.DataGridItems.Clear(); }));
+
             var doc = new XmlDocument();
+            var searchTerm = PropertySetting.Read_Setting(SettingsName.searchTerm);
+            var searchTerm2 = PropertySetting.Read_Setting(SettingsName.searchTerm2);
             var loadText = "";
             window.Dispatcher.Invoke(() =>
             {
                 loadText = PropertySetting.Read_Setting(SettingsName.FilePath);
             });
             doc.Load(loadText);
-            var list = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm));
-            var list2 = doc.GetElementsByTagName(PropertySetting.Read_Setting(SettingsName.searchTerm2));
-            int counterID = 0;
-            if (string.IsNullOrEmpty(PropertySetting.Read_Setting(SettingsName.searchTerm2)))
+
+            var list = doc.GetElementsByTagName(searchTerm);
+            var list2 = doc.GetElementsByTagName(searchTerm2);
+        int counterID = 0;
+            if (!string.IsNullOrEmpty(searchTerm2)) 
             {
                 foreach (XmlNode node in list)
                 {
@@ -45,7 +49,7 @@ namespace XMLEditor.Core
                 }
                 window.Dispatcher.Invoke(() =>
                 {
-                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + PropertySetting.Read_Setting(SettingsName.searchTerm) + " und " + PropertySetting.Read_Setting(SettingsName.searchTerm2) + " gefunden.");
+                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + searchTerm + " und " + searchTerm2 + " gefunden.");
                 });
             }
             else
@@ -60,7 +64,7 @@ namespace XMLEditor.Core
                 }
                 window.Dispatcher.Invoke(() =>
                 {
-                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + PropertySetting.Read_Setting(SettingsName.searchTerm) + " gefunden.");
+                    window.ChangeInformationText(ColorText.success, "Es wurden " + counterID + " mit dem Term " + searchTerm + " gefunden.");
                 });
             }
 

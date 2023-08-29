@@ -17,9 +17,9 @@
             </StackPanel>
             <StackPanel Margin="10" HorizontalAlignment="Center">
 
-                <Label>Bitte gesuchter Term angeben</Label>
+                <Label>Bitte gesuchter Term angeben (Value)</Label>
                 <TextBox Name="searchTermBox" Height="25" Width="500" KeyDown="SearchTermBox_KeyDown"/>
-                <Label>Weitere gesuchter Term angeben (Optional)</Label>
+                <Label>Weitere gesuchter Term angeben (Value2) (Optional)</Label>
                 <TextBox Name="searchTermBox2" Height="25" Width="500" KeyDown="SearchTermBox_KeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
@@ -29,9 +29,9 @@
             <Label Name="searchTermLabel" HorizontalAlignment="Center"/>
             <DataGrid Name="dgIdValue" ItemsSource="{Binding DataGridItems, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="20" VerticalScrollBarVisibility="Auto" MaxHeight="300" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
-                    <DataGridTextColumn Header="Value2" Binding="{Binding Value2}"/>
+                    <DataGridTextColumn Header="ID" IsReadOnly="true" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="Value" IsReadOnly="true" Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="Value2"  IsReadOnly="true" Binding="{Binding Value2}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
