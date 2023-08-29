@@ -1,9 +1,10 @@
-# XML_Editor Version 0.0.6
+# XML_Editor Version 0.0.7
 Far away to be a XML Editor <br>
 ### Feature
 * Replace all Values of a specific Node with the same Value.
 * Search for all Values with the same Tag Name
 * Delete Values from all choosen Tag.
+* Transform XML to CSV by using XSLT
 
 ## Installation
 1. Download as a Zip and extract the Zip file. 
