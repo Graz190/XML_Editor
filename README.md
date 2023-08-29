@@ -1,4 +1,4 @@
-# XML_Editor Version 0.0.7
+# XML_Editor Version 0.1.0
 Far away to be a XML Editor <br>
 ### Feature
 * Replace all Values of a specific Node with the same Value.
