@@ -3,6 +3,7 @@ Far away to be a XML Editor <br>
 ### Feature
 * Replace all Values of a specific Node with the same Value.
 * Search for all Values with the same Tag Name
+* Delete Values from all choosen Tag.
 
 ## Installation
 1. Download as a Zip and extract the Zip file. 
